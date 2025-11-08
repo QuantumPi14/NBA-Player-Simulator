@@ -12,7 +12,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/")
-def read_index():
+def home():
     return FileResponse("static/index.html")
 
 @app.get("/api/player")
