@@ -28,15 +28,15 @@ if (form) {
         // Converts player data to json
         const data = await res.json();
         const container = document.getElementById("cardContainer");
-        
-        container.innerHTML = `
-            <div class="card">
-                <div class="stats">
-                    <p><strong>PPG:</strong> ${data.ppg}</p>
-                    <p><strong>RPG:</strong> ${data.rpg}</p>
-                    <p><strong>APG:</strong> ${data.apg}</p>
-                </div>
-                <div class="name">${data.name}</div>
-            </div>
-        `;
     }
+
+    container.innerHTML = `
+  <div class="card">
+    <div class="stats">
+      <p><strong>PPG:</strong> ${data.ppg}</p>
+      <p><strong>RPG:</strong> ${data.rpg}</p>
+      <p><strong>APG:</strong> ${data.apg}</p>
+    </div>
+    <div class="name">${data.name}</div>
+  </div>
+`;
