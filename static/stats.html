@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Player Simulator</title>
+    <title>Player Stats</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
@@ -14,14 +14,7 @@
     </header>
     <main class="main-content">
         <div class="page-container">
-            <h1>Search Player Stats</h1>
-            <form id="playerForm" class="search-form">
-                <div class="form-group">
-                    <label for="pname">Enter player name</label>
-                    <input type="text" id="pname" name="name" placeholder="e.g., LeBron James" required>
-                </div>
-                <button type="submit" class="nba-button">Search</button>
-            </form>
+            <div id="playerStatsContainer"></div>
         </div>
     </main>
     <script src="/static/app.js"></script>

@@ -1,42 +1,78 @@
+// Form submission handler for index page
 const form = document.getElementById("playerForm");
 if (form) {
     form.addEventListener("submit", (e) => {
-      // By default, submitting a form refreshes the page or data to a URL, 
-      // but we want to stay on same page 
         e.preventDefault(); 
         const name = document.getElementById("pname").value.trim();
         if (name) {
-            // Goes to card/html and adds the player's name to the URL
-            window.location.href = `/static/card.html?name=${encodeURIComponent(name)}`;
+            window.location.href = `/static/stats.html?name=${encodeURIComponent(name)}`;
         }
-    } )
+    });
 }
 
-    // grabs the ?something=value, in this case it's ?name=NBA%20Player
-    const params = new URLSearchParams(window.location.search);
-    const Name = params.get("name");
+// Load player data onto page
+const params = new URLSearchParams(window.location.search);
+const playerName = params.get("name");
 
-    // Checks if there is a name in the URL and there's an element that has an ID cardContainer
-    if (Name && document.getElementById("cardContainer")){
-        loadPlayer(Name);
-    }
+if (playerName && document.getElementById("playerStatsContainer")) {
+    loadPlayer(playerName);
+}
 
-    // Using async because this will probably take a while, don't wantn to hold up teh whole program to fetch the data.
-    async function loadPlayer(name) {
-        // Sends a GET request to ...
+async function loadPlayer(name) {
+    try {
         const res = await fetch(`/api/player?name=${encodeURIComponent(name)}`);
-        // Converts player data to json
         const data = await res.json();
-        const container = document.getElementById("cardContainer");
+        const container = document.getElementById("playerStatsContainer");
+        
+        if (data.error) {
+            container.innerHTML = `<div class="error">${data.error}</div>`;
+            return;
+        }
+        
+        const formatStat = (value) => {
+            if (typeof value === 'number') {
+                return value.toFixed(1);
+            }
+            return value || '0.0';
+        };
+        
+        // So it only shows 3 decimal places instead of for example 0.5210000
+        const formatPct = (value) => {
+            if (typeof value === 'number') {
+                return value.toFixed(3);
+            }
+            return value || '0.000';
+        };
+        
+        container.innerHTML = `
+            <h2 class="player-name">${data.name}</h2>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>PPG</th>
+                        <th>RPG</th>
+                        <th>APG</th>
+                        <th>SPG</th>
+                        <th>BPG</th>
+                        <th>FG%</th>
+                        <th>3PT%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${formatStat(data.ppg)}</td>
+                        <td>${formatStat(data.rpg)}</td>
+                        <td>${formatStat(data.apg)}</td>
+                        <td>${formatStat(data.spg)}</td>
+                        <td>${formatStat(data.bpg)}</td>
+                        <td>${formatPct(data.fg_pct)}</td>
+                        <td>${formatPct(data.fg3_pct)}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    } catch (error) {
+        const container = document.getElementById("playerStatsContainer");
+        container.innerHTML = `<div class="error">Error loading player data</div>`;
     }
-
-    container.innerHTML = `
-  <div class="card">
-    <div class="stats">
-      <p><strong>PPG:</strong> ${data.ppg}</p>
-      <p><strong>RPG:</strong> ${data.rpg}</p>
-      <p><strong>APG:</strong> ${data.apg}</p>
-    </div>
-    <div class="name">${data.name}</div>
-  </div>
-`;
+}
