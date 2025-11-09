@@ -32,6 +32,57 @@ The application currently allows users to:
 
 **to be implemented*
 
+## Running Locally
+
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package installer)
+
+### Setup Instructions
+
+1. **Clone the repository** (if you haven't already):
+   ```bash
+   git clone <repository-url>
+   cd NBAPlayerSim
+   ```
+
+2. **Create a virtual environment** (recommended):
+   ```bash
+   python -m venv venv
+   ```
+
+3. **Activate the virtual environment**:
+   - On Windows (PowerShell):
+     ```powershell
+     .\venv\Scripts\Activate.ps1
+     ```
+   - On Windows (Command Prompt):
+     ```cmd
+     venv\Scripts\activate.bat
+     ```
+   - On macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+
+4. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. **Run the application**:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+6. **Access the application**:
+   - Open your browser and navigate to `http://localhost:8000`
+   - The API documentation is available at `http://localhost:8000/docs`
+
+### Notes
+- The `--reload` flag enables auto-reload on code changes (useful for development)
+- To stop the server, press `Ctrl+C` in the terminal
+- Make sure your virtual environment is activated before running the application
 
 ## Project Goals / Coming Soon
 
